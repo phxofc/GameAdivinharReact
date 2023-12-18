@@ -9,10 +9,12 @@ const Game = ({verifyLetter,
     wrongLetters,
     guesses,
     score}) => {
+
         const [letter, setLetter] = useState("")
         const letterInputRef = useRef(null)
 
         const handleSubmit = (e)=>{
+            
             e.preventDefault();
 
             verifyLetter(letter);
@@ -33,7 +35,7 @@ const Game = ({verifyLetter,
         <p>você ainda tem {guesses} tentativas(s).</p>
     <div className='wordContainer'>
         {letters.map((letter, i) =>
-            guessedLetters.includes(letter)?(
+            guessedLetters.includes(letter) ? (
                 <span key ={i} className="letter"> {letter}</span>
             ):(
                 <span key ={i} className="blankSquare"> </span>
@@ -53,7 +55,7 @@ const Game = ({verifyLetter,
     <div className="wrongLettersContainer">
         <p>letras ja utilizadas</p>
         {wrongLetters.map((letter, i) =>(
-            <span key={i}>{letter}</span>
+            <span key={i}>{letter}, </span>
         ))}
     </div>
     </div>

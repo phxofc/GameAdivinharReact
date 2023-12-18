@@ -26,7 +26,7 @@ function App() {
 
   const [pickedWord, setPickedWord] = useState("")
   const [pickedCategory, setPickedCategory] = useState("")
-  const [letters, setLetters] = useState("")
+  const [letters, setLetters] = useState([])
 
   const [guessedLetters, setGuessedLetters] = useState([])
   const [wrongLetters, setWrongLetters] = useState([])
@@ -68,30 +68,33 @@ function App() {
   }
   // processo de letter input
   const verifyLetter = (letter) =>{
+    
     const normalizedLetter = letter.toLowerCase()
 
-    //chek if letter has alrefy been utilezed
-    if(guessedLetters.includes(normalizedLetter) ||
-     wrongLetters.includes(normalizedLetter) ){
+    //chek if letter has alredy been utilezed
+    if(guessedLetters.includes(normalizedLetter) || wrongLetters.includes(normalizedLetter))
+    {
       return;
     }
     // push guessed letter or remove a guess
-    if(letter.includes(normalizedLetter)){
-      setGuessedLetters((actualGuessedLetter) => [
-        ...actualGuessedLetter,
+    if(letters.includes(normalizedLetter)){
+      setGuessedLetters((actualGuessedLetters) => [
+        ...actualGuessedLetters,
         normalizedLetter
       ])
     }else{  
-         setWrongLetters((actualWrongLetter) => [
-          ...actualWrongLetter,
+         setWrongLetters((actualWrongLetters) => [
+          ...actualWrongLetters,
           normalizedLetter
         ]);
         setGuesses((actualGuesses) => actualGuesses - 1)
         
     }
-    
+      
 
   }
+  console.log("certas: "+guessedLetters)
+    console.log("erradas: "+wrongLetters)  
 
 const clearLetterStates = () =>{
   setGuessedLetters([]);
@@ -133,7 +136,7 @@ const clearLetterStates = () =>{
       letters={letters}
       guessedLetters={guessedLetters}
       wrongLetters={wrongLetters}
-      guesses= {guesses}
+      guesses={guesses}
       score={score}
 
       />}
