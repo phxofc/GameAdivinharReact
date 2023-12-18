@@ -23,9 +23,37 @@ function App() {
   const [count, setCount] = useState(0)
   const [gameStage, setGameStage]= useState(stages[0].name)
   const [words] = useState(wordList);
+
+  const [pickedWord, setPickedWord] = useState("")
+  const [pickedCategory, setPickedCategory] = useState("")
+  const [letters, setLetters] = useState("")
+
+  const pickWordAndCategory=() =>{
+    //pick a random category
+    const categories = Object.keys(words)
+    const category = categories[Math.floor(Math.random() * Object.keys(categories).length)]
   
+    console.log(category)
+
+    //pick a random category
+    const word = wordList[category][Math.floor(Math.random() * wordList[category].length)]
+    console.log(word)
+
+    return {word, category}
+  }
+
   //start game
   const startGame = () =>{
+    //pick word and pick category
+    const {word, category} =pickWordAndCategory();
+    
+    //create an array of letters
+    let wordLetters = word.split("")
+    wordLetters = wordLetters.map((l) => l.toLowerCase()) 
+    
+    console.log(category, word)
+    console.log(wordLetters)
+
     setGameStage(stages[1].name)
   }
   // processo de letter input
