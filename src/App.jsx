@@ -54,6 +54,11 @@ function App() {
     console.log(category, word)
     console.log(wordLetters)
 
+    // fill states
+    setPickedWord(word)
+    setPickedCategory(category)
+    setLetters(letters)
+
     setGameStage(stages[1].name)
   }
   // processo de letter input
