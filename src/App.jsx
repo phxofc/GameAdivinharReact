@@ -2,7 +2,7 @@
 //CSS
 import './App.css'
 //react
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 //data
 import { wordList } from './assets/data/words'
@@ -20,7 +20,7 @@ const stages =[
 
 
 function App() {
-  const [count, setCount] = useState(0)
+
   const [gameStage, setGameStage]= useState(stages[0].name)
   const [words] = useState(wordList);
 
@@ -71,7 +71,8 @@ function App() {
     const normalizedLetter = letter.toLowerCase()
 
     //chek if letter has alrefy been utilezed
-    if(guessedLetters.includes(normalizedLetter) || wrongLetters.includes(normalizedLetter) ){
+    if(guessedLetters.includes(normalizedLetter) ||
+     wrongLetters.includes(normalizedLetter) ){
       return;
     }
     // push guessed letter or remove a guess
@@ -85,12 +86,38 @@ function App() {
           ...actualWrongLetter,
           normalizedLetter
         ]);
+        setGuesses((actualGuesses) => actualGuesses - 1)
+        
     }
-    console.log(guessedLetters)
-    console.log(wrongLetters)
+    
+
   }
+
+const clearLetterStates = () =>{
+  setGuessedLetters([]);
+  setWrongLetters([]);
+}
+
+
+  useEffect(()=> {
+
+    if(guesses <=0){
+      //reset all states
+      clearLetterStates();
+
+
+      setGameStage(stages[2].name)
+    }
+
+  }, [guesses])
+
+
+
   //restart the game
   const retry =()=>{
+    setScore(0)
+    setGuesses(3)
+
     setGameStage(stages[0].name)
   }
 
