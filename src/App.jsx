@@ -2,7 +2,7 @@
 //CSS
 import './App.css'
 //react
-import { useEffect, useState } from 'react'
+import {useEffect, useState } from 'react'
 
 //data
 import { wordList } from './assets/data/words'
@@ -33,22 +33,24 @@ function App() {
   const [guesses, setGuesses] = useState(3)
   const [score, setScore] = useState(0)
 
-  const pickWordAndCategory=() =>{
+  const pickWordAndCategory= () =>{
     //pick a random category
     const categories = Object.keys(words)
     const category = categories[Math.floor(Math.random() * Object.keys(categories).length)]
   
-    console.log(category)
+   
 
     //pick a random category
     const word = wordList[category][Math.floor(Math.random() * wordList[category].length)]
-    console.log(word)
+    
 
     return {word, category}
-  }
+  };
 
   //start game
   const startGame = () =>{
+    //clear all letters
+    clearLetterStates();
     //pick word and pick category
     const {word, category} =pickWordAndCategory();
     
@@ -56,8 +58,7 @@ function App() {
     let wordLetters = word.split("")
     wordLetters = wordLetters.map((l) => l.toLowerCase()) 
     
-    console.log(category, word)
-    console.log(wordLetters)
+   
 
     // fill states
     setPickedWord(word)
@@ -65,7 +66,7 @@ function App() {
     setLetters(wordLetters)
 
     setGameStage(stages[1].name)
-  }
+  };
   // processo de letter input
   const verifyLetter = (letter) =>{
     
@@ -93,15 +94,15 @@ function App() {
       
 
   }
-  console.log("certas: "+guessedLetters)
-    console.log("erradas: "+wrongLetters)  
+
 
 const clearLetterStates = () =>{
   setGuessedLetters([]);
   setWrongLetters([]);
+  
 }
 
-
+//chek if guesses end
   useEffect(()=> {
 
     if(guesses <=0){
@@ -114,6 +115,20 @@ const clearLetterStates = () =>{
 
   }, [guesses])
 
+  //chek win condition
+  useEffect(()=>{
+
+    const uniqueLetters =[...new Set(letters)]
+    //win codintion
+    if(guessedLetters.length == uniqueLetters.length){
+      // add score
+      setScore((actualScore) => actualScore +=100)
+      //restar the game with new word
+      startGame();
+    }
+   
+
+  },[guessedLetters])
 
 
   //restart the game
@@ -140,7 +155,7 @@ const clearLetterStates = () =>{
       score={score}
 
       />}
-      {gameStage == 'end' &&  <GameOver retry={retry}/>}
+      {gameStage == 'end' &&  <GameOver retry={retry} score={score}/>}
       </div>
       
     </>
