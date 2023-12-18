@@ -1,8 +1,8 @@
-import { useState } from 'react'
+
 //CSS
 import './App.css'
 //react
-
+import { useState } from 'react'
 
 //data
 import { wordList } from './assets/data/words'
@@ -23,14 +23,26 @@ function App() {
   const [count, setCount] = useState(0)
   const [gameStage, setGameStage]= useState(stages[0].name)
   const [words] = useState(wordList);
-  console.log(words)
+  
+  //start game
+  const startGame = () =>{
+    setGameStage(stages[1].name)
+  }
+  // processo de letter input
+  const verifyLetter = () =>{
+    setGameStage(stages[2].name)
+  }
+  //restart the game
+  const retry =()=>{
+    setGameStage(stages[0].name)
+  }
 
   return (
     <>
       <div>
-      {gameStage == 'start' &&  <StartScreen/>}
-      {gameStage == 'game' &&  <Game/>}
-      {gameStage == 'end' &&  <GameOver/>}
+      {gameStage == 'start' &&  <StartScreen startGame={startGame}  />}
+      {gameStage == 'game' &&  <Game verifyLetter={verifyLetter}/>}
+      {gameStage == 'end' &&  <GameOver retry={retry}/>}
       </div>
       
     </>
